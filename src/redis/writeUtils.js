@@ -1,7 +1,7 @@
 var redis = require("redis");
 const { promisify } = require("util");
 
-export async function processRedisLocation(login, location) {
+export async function writeLocation(login, location) {
   let client = redis.createClient();
 
   let sadd = promisify(client.sadd).bind(client);
@@ -11,7 +11,7 @@ export async function processRedisLocation(login, location) {
   client.quit();
 }
 
-export async function processRedisName(login, name) {
+export async function writeName(login, name) {
   let client = redis.createClient();
 
   let hset = promisify(client.hset).bind(client);

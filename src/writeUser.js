@@ -5,7 +5,7 @@ import fetch from "node-fetch";
 import gql from "graphql-tag";
 import * as fs from "fs";
 
-import {processRedisLocation, processRedisName} from "./redis/writeUtils"
+import { writeLocation, writeName } from "./redis/writeUtils";
 
 async function getJsonKeyFromFile(filename) {
   var r1 = await readJsonDataFromFilename(filename, "utf8");
@@ -209,32 +209,10 @@ function processEdgeAry(edgeAry) {
     let login = item.node.login;
     let name = item.node.name;
     // console.log(login, name, location);
-    processRedisLocation(login, location);
-    processRedisName(login, name);
+    writeLocation(login, location);
+    writeLocation(login, name);
   });
 }
-
-/*
-async function processRedisLocation(login, location) {
-  let client = redis.createClient();
-
-  let sadd = promisify(client.sadd).bind(client);
-  let writeResult = await sadd("bend", login);
-
-  // console.log(`${writeResult} has been saved.`);
-  client.quit();
-}
-
-async function processRedisName(login, name) {
-  let client = redis.createClient();
-
-  let hset = promisify(client.hset).bind(client);
-  let writeResult = await hset(login, "name", name);
-
-  // console.log(`${writeResult} has been saved.`);
-  client.quit();
-}
-*/
 
 async function goGql() {
   let githubApiKey = await getJsonKeyFromFile("./data/f1.js");

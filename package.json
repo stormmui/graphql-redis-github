@@ -5,7 +5,7 @@
   "main": "ex1.js",
   "scripts": {
     "build": "babel src -d lib",
-    "start": "npm run build && node lib/src/writeUser.js"
+    "start": "npm run build && node lib/writeUser.js"
   },
   "keywords": [
     "graphql"
