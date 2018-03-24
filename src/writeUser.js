@@ -186,31 +186,14 @@ async function processRedis(value) {
   processEdgeAry(edgeAry);
 }
 
-function checkForOrganization(item) {
-  if (item.node.location === undefined) {
-    return false;
-  }
-  if (item.node.login === undefined) {
-    return false;
-  }
-  if (item.node.name === undefined) {
-    return false;
-  }
-  // console.log(item);
-  return true;
-}
-
 function processEdgeAry(edgeAry) {
   edgeAry.forEach(function(item) {
-    if (checkForOrganization(item) == false) {
-      return;
-    }
     let location = item.node.location;
     let login = item.node.login;
     let name = item.node.name;
     // console.log(login, name, location);
     writeLocation(login, location);
-    writeLocation(login, name);
+    writeName(login, name);
   });
 }
 
