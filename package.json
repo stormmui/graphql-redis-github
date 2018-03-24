@@ -1,0 +1,28 @@
+{
+  "name": "preset",
+  "version": "1.0.0",
+  "description": "preset setup",
+  "main": "ex1.js",
+  "scripts": {
+    "build": "babel src/writeUser.js -d lib",
+    "start": "npm run build && node lib/src/writeUser.js"
+  },
+  "keywords": [
+    "graphql"
+  ],
+  "author": "michael angerman",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-cache-inmemory": "^1.1.11",
+    "apollo-client": "^2.2.7",
+    "apollo-link-http": "^1.5.3",
+    "graphql": "^0.13.2",
+    "graphql-tag": "^2.8.0",
+    "node-fetch": "^2.1.1",
+    "redis": "^2.8.0"
+  },
+  "devDependencies": {
+    "babel-cli": "*",
+    "babel-preset-env": "*"
+  }
+}
