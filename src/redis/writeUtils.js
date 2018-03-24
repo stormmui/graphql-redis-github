@@ -5,7 +5,7 @@ export async function writeLocation(login, location) {
   let client = redis.createClient();
 
   let sadd = promisify(client.sadd).bind(client);
-  let writeResult = await sadd("bend", login);
+  let writeResult = await sadd(location, login);
 
   // console.log(`${writeResult} has been saved.`);
   client.quit();
