@@ -192,7 +192,7 @@ function processEdgeAry(edgeAry) {
     let login = item.node.login;
     let name = item.node.name;
     // console.log(login, name, location);
-    writeLocation(login, location);
+    writeLocation(login, "corvallis");
     writeName(login, name);
   });
 }
