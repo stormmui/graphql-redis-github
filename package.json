@@ -4,7 +4,7 @@
   "description": "preset setup",
   "main": "ex1.js",
   "scripts": {
-    "build": "babel src/writeUser.js -d lib",
+    "build": "babel src -d lib",
     "start": "npm run build && node lib/src/writeUser.js"
   },
   "keywords": [
