@@ -92,7 +92,8 @@ const locationQueryWithCursor = gql`
 
 // const options = { before: "Y3Vyc29yOjb" };
 
-async function getInitialGithubData(client, options) {
+async function getInitialGithubData(client, city) {
+  const options = { location: `location:${city}` };
   return new Promise((resolve, reject) => {
     client
       .query({
@@ -180,10 +181,9 @@ function processEdgeAry(edgeAry, location) {
 }
 
 async function goGql(city) {
-  const options = { location: `location:${city}` };
   let githubApiKey = await getJsonKeyFromFile("./data/f1.js");
   let client = await getClient(githubApiKey);
-  let myjson = await getInitialGithubData(client, options);
+  let myjson = await getInitialGithubData(client, city);
   let myredis = await handleRedis(myjson);
   await getCursorFromData(client, myredis, city);
 }
