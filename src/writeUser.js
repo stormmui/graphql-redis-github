@@ -191,8 +191,8 @@ function processEdgeAry(edgeAry, location) {
   });
 }
 
-async function goGql() {
-  const options = { location: "location:corvallis" };
+async function goGql(city) {
+  const options = { location: `location:${city}` };
   let githubApiKey = await getJsonKeyFromFile("./data/f1.js");
   let client = await getClient(githubApiKey);
   let myjson = await getInitialGithubData(client, options);
@@ -200,4 +200,9 @@ async function goGql() {
   await getCursorFromData(client, myredis);
 }
 
-goGql();
+// const cities = ["corvallis","bend","eugene"];
+const cities = ["corvallis"];
+
+cities.forEach(function(city) {
+  goGql(city);
+});
