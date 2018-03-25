@@ -41,8 +41,8 @@ async function getClient(githubApiKey) {
 }
 
 const locationQuery = gql`
-  query LocationSearch($mylocation: String!) {
-    search(query: $mylocation, type: USER, first: 100) {
+  query LocationSearch($location: String!) {
+    search(query: $location, type: USER, first: 100) {
       userCount
       edges {
         cursor
@@ -66,8 +66,8 @@ const locationQuery = gql`
 `;
 
 const locationQueryWithCursor = gql`
-  query LocationSearchCursor($mylocation: String!, $before: String) {
-    search(query: $mylocation, type: USER, first: 100, before: $before) {
+  query LocationSearchCursor($location: String!, $before: String) {
+    search(query: $location, type: USER, first: 100, before: $before) {
       userCount
       edges {
         cursor
@@ -147,7 +147,7 @@ async function getNextCursor(value, cursor) {
 }
 
 async function iterateOverCursor(client, cursor) {
-  const options = { mylocation: "location:corvallis", before: cursor };
+  const options = { location: "location:corvallis", before: cursor };
 
   let myjson = await getGithubData(client, options);
   let myredis = await handleRedis(myjson);
@@ -193,7 +193,7 @@ function processEdgeAry(edgeAry) {
 }
 
 async function goGql() {
-  const options = { mylocation: "location:corvallis" };
+  const options = { location: "location:corvallis" };
   let githubApiKey = await getJsonKeyFromFile("./data/f1.js");
   let client = await getClient(githubApiKey);
   let myjson = await getInitialGithubData(client, options);
