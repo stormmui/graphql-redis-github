@@ -143,7 +143,7 @@ async function getNextCursor(value, cursor) {
   if (edgeAryLength == 1) {
     process.exit();
   }
-  processEdgeAry(edgeAry);
+  processEdgeAry(edgeAry, "corvallis");
 }
 
 async function iterateOverCursor(client, cursor) {
@@ -158,7 +158,7 @@ async function getCursorFromData(client, value) {
   let userCount = value.data.search.userCount;
   let edgeAry = value.data.search.edges;
 
-  processEdgeAry(edgeAry);
+  processEdgeAry(edgeAry, "corvallis");
 
   let edgeAryLength = edgeAry.length;
   let cursor = edgeAry[edgeAryLength - 1].cursor;
@@ -173,21 +173,20 @@ async function getCursorFromData(client, value) {
   iterateOverCursor(client, cursor);
 }
 
-async function processRedis(value) {
-  let userCount = value.data.search.userCount;
-  let edgeAry = value.data.search.edges;
-  console.log("userCount = ", userCount);
-  console.log("edgeAry length = ", edgeAry.length);
-  processEdgeAry(edgeAry);
-}
-
-function processEdgeAry(edgeAry) {
+function processEdgeAry(edgeAry, location) {
   edgeAry.forEach(function(item) {
-    let location = item.node.location;
+    //
+    //  Leave this here for later when you want to do some filtering
+    //  based on regex matching to filter out for example
+    //  South Bend, Indiana from Bend, Oregon
+    //  For now South Bend, Indiana is getting in there
+    //  When I just put in Bend
+    //
+    //  let location = item.node.location;
+    //
     let login = item.node.login;
     let name = item.node.name;
-    // console.log(login, name, location);
-    writeLocation(login, "corvallis");
+    writeLocation(login, location);
     writeName(login, name);
   });
 }
