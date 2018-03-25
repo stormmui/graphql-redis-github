@@ -155,7 +155,7 @@ async function getCursorFromData(client, value, city) {
   console.log("cursor = ", cursor);
 
   if (edgeAryLength == 1) {
-    process.exit();
+    return 1;
   }
 
   iterateOverCursor(client, cursor, city);
@@ -188,8 +188,8 @@ async function goGql(city) {
   await getCursorFromData(client, myredis, city);
 }
 
-// const cities = ["corvallis","bend","eugene"];
-const cities = ["corvallis"];
+const cities = ["corvallis", "bend", "eugene"];
+// const cities = ["corvallis"];
 
 cities.forEach(function(city) {
   goGql(city);
