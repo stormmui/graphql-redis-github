@@ -134,31 +134,19 @@ async function handleRedis(githubData) {
     });
 }
 
-async function getNextCursor(value, cursor) {
-  let userCount = value.data.search.userCount;
-  let edgeAry = value.data.search.edges;
-  let edgeAryLength = edgeAry.length;
-  console.log("userCount = ", userCount);
-  console.log("edgeAry length = ", edgeAryLength);
-  if (edgeAryLength == 1) {
-    process.exit();
-  }
-  processEdgeAry(edgeAry, "corvallis");
-}
-
-async function iterateOverCursor(client, cursor) {
-  const options = { location: "location:corvallis", before: cursor };
+async function iterateOverCursor(client, cursor, city) {
+  const options = { location: `location:${city}`, before: cursor };
 
   let myjson = await getGithubData(client, options);
   let myredis = await handleRedis(myjson);
-  await getCursorFromData(client, myredis);
+  await getCursorFromData(client, myredis, city);
 }
 
-async function getCursorFromData(client, value) {
+async function getCursorFromData(client, value, city) {
   let userCount = value.data.search.userCount;
   let edgeAry = value.data.search.edges;
 
-  processEdgeAry(edgeAry, "corvallis");
+  processEdgeAry(edgeAry, city);
 
   let edgeAryLength = edgeAry.length;
   let cursor = edgeAry[edgeAryLength - 1].cursor;
@@ -170,7 +158,7 @@ async function getCursorFromData(client, value) {
     process.exit();
   }
 
-  iterateOverCursor(client, cursor);
+  iterateOverCursor(client, cursor, city);
 }
 
 function processEdgeAry(edgeAry, location) {
@@ -197,7 +185,7 @@ async function goGql(city) {
   let client = await getClient(githubApiKey);
   let myjson = await getInitialGithubData(client, options);
   let myredis = await handleRedis(myjson);
-  await getCursorFromData(client, myredis);
+  await getCursorFromData(client, myredis, city);
 }
 
 // const cities = ["corvallis","bend","eugene"];
