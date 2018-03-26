@@ -59,11 +59,11 @@ const repositoryMentionableUsers = gql`
 `;
 
 const repositoryMentionableUsersWithCursor = gql`
-  query MentionableUsers($owner: String!, $name: String!, $before: String) {
+  query MentionableUsers($owner: String!, $name: String!, $after: String) {
     repository(owner: $owner, name: $name) {
       name
       nameWithOwner
-      mentionableUsers(first: 100, before: $before) {
+      mentionableUsers(first: 100, after: $after) {
         totalCount
         edges {
           cursor
@@ -123,7 +123,7 @@ async function handleRedis(githubData) {
 
 async function iterateOverCursor(client, cursor, repository) {
   const result = repository.split("/");
-  const options = { owner: result[0], name: result[1], before: cursor };
+  const options = { owner: result[0], name: result[1], after: cursor };
 
   let myjson = await getGithubData(client, options);
   let myredis = await handleRedis(myjson);
