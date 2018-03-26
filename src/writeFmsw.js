@@ -132,23 +132,25 @@ async function iterateOverCursor(client, cursor, city) {
   await getCursorFromData(client, myredis, city);
 }
 
-async function getCursorFromData(client, value, city) {
-  let userCount = value.data.search.userCount;
-  let edgeAry = value.data.search.edges;
+async function getCursorFromData(client, value, repository) {
+  let userCount = value.data.repository.mentionableUsers.totalCount;
+  let edgeAry = value.data.repository.mentionableUsers.edges;
 
-  processEdgeAry(edgeAry, city);
+
+  // processEdgeAry(edgeAry, city);
 
   let edgeAryLength = edgeAry.length;
   let cursor = edgeAry[edgeAryLength - 1].cursor;
   console.log("userCount = ", userCount);
   console.log("edgeAry length = ", edgeAryLength);
   console.log("cursor = ", cursor);
-
+/*
   if (edgeAryLength == 1) {
     return 1;
   }
 
   iterateOverCursor(client, cursor, city);
+*/
 }
 
 function processEdgeAry(edgeAry, location) {
@@ -175,7 +177,7 @@ async function goGql(repository) {
   let myjson = await getInitialGithubData(client, repository);
   let myredis = await handleRedis(myjson);
   console.log(myredis);
-  // await getCursorFromData(client, myredis, repository);
+  await getCursorFromData(client, myredis, repository);
 }
 
 const repositories = ["graphql/graphql-js"];
