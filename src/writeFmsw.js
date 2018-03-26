@@ -43,46 +43,43 @@ async function getClient(githubApiKey) {
 const repositoryMentionableUsers = gql`
   query MentionableUsers($owner: String!, $name: String!) {
     repository(owner: $owner, name: $name) {
-       name
-       nameWithOwner
-       mentionableUsers(first: 100) {
-         totalCount
-         edges {
-           cursor
-           node {
-             login
-           }
-         }
-       }
-     }
+      name
+      nameWithOwner
+      mentionableUsers(first: 100) {
+        totalCount
+        edges {
+          cursor
+          node {
+            login
+          }
+        }
+      }
+    }
   }
 `;
 
 const repositoryMentionableUsersWithCursor = gql`
   query MentionableUsers($owner: String!, $name: String!, $before: String) {
     repository(owner: $owner, name: $name) {
-       name
-       nameWithOwner
-       mentionableUsers(first: 100, before: $before) {
-         totalCount
-         edges {
-           cursor
-           node {
-             login
-           }
-         }
-       }
-     }
+      name
+      nameWithOwner
+      mentionableUsers(first: 100, before: $before) {
+        totalCount
+        edges {
+          cursor
+          node {
+            login
+          }
+        }
+      }
+    }
   }
 `;
 
-async function getInitialGithubData(client, nameWithOwner) {
-
-  const test1 = "graphql/graphql-js"
-  const result = nameWithOwner.split("/");
-  // console.log(result);
-
+async function getInitialGithubData(client, repository) {
+  const result = repository.split("/");
   const options = { owner: result[0], name: result[1] };
+
   return new Promise((resolve, reject) => {
     client
       .query({
@@ -102,7 +99,7 @@ async function getGithubData(client, options) {
   return new Promise((resolve, reject) => {
     client
       .query({
-        query: locationQueryWithCursor,
+        query: repositoryMentionableUsersWithCursor,
         variables: options
       })
       .then(data => {
@@ -124,12 +121,13 @@ async function handleRedis(githubData) {
     });
 }
 
-async function iterateOverCursor(client, cursor, city) {
-  const options = { location: `location:${city}`, before: cursor };
+async function iterateOverCursor(client, cursor, repository) {
+  const result = repository.split("/");
+  const options = { owner: result[0], name: result[1], before: cursor };
 
   let myjson = await getGithubData(client, options);
   let myredis = await handleRedis(myjson);
-  await getCursorFromData(client, myredis, city);
+  await getCursorFromData(client, myredis, repository);
 }
 
 async function getCursorFromData(client, value, repository) {
@@ -143,16 +141,15 @@ async function getCursorFromData(client, value, repository) {
   console.log("userCount = ", userCount);
   console.log("edgeAry length = ", edgeAryLength);
   console.log("cursor = ", cursor);
-/*
+
   if (edgeAryLength == 1) {
     return 1;
   }
 
-  iterateOverCursor(client, cursor, city);
-*/
+  iterateOverCursor(client, cursor, repository);
 }
 
-function processEdgeAry(edgeAry,repository) {
+function processEdgeAry(edgeAry, repository) {
   edgeAry.forEach(function(item) {
     let login = item.node.login;
     // eventually we will rename this method
