@@ -76,44 +76,12 @@ const repositoryMentionableUsersWithCursor = gql`
   }
 `;
 
-
-
-
-
-
-const locationQueryWithCursor = gql`
-  query LocationSearchCursor($location: String!, $before: String) {
-    search(query: $location, type: USER, first: 100, before: $before) {
-      userCount
-      edges {
-        cursor
-        node {
-          ... on User {
-            name
-            login
-            location
-            __typename
-          }
-          ... on Organization {
-            name
-            login
-            location
-            __typename
-          }
-        }
-      }
-    }
-  }
-`;
-
-// const options = { before: "Y3Vyc29yOjb" };
-
-async function getInitialGithubData(client, city) {
-  const options = { location: `location:${city}` };
+async function getInitialGithubData(client, nameWithOwner) {
+  const options = { owner: owner, name: name };
   return new Promise((resolve, reject) => {
     client
       .query({
-        query: locationQuery,
+        query: repositoryMentionableUsers,
         variables: options
       })
       .then(data => {
@@ -196,17 +164,16 @@ function processEdgeAry(edgeAry, location) {
   });
 }
 
-async function goGql(city) {
+async function goGql(repository) {
   let githubApiKey = await getJsonKeyFromFile("./data/f1.js");
   let client = await getClient(githubApiKey);
-  let myjson = await getInitialGithubData(client, city);
+  let myjson = await getInitialGithubData(client, repository);
   let myredis = await handleRedis(myjson);
-  await getCursorFromData(client, myredis, city);
+  // await getCursorFromData(client, myredis, city);
 }
 
-const cities = ["corvallis", "bend", "eugene"];
-// const cities = ["corvallis"];
+const repositories = ["graphql/graphql-js"];
 
-cities.forEach(function(city) {
-  goGql(city);
+cities.forEach(function(repository) {
+  goGql(repository);
 });
