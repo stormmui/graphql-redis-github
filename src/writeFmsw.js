@@ -136,8 +136,7 @@ async function getCursorFromData(client, value, repository) {
   let userCount = value.data.repository.mentionableUsers.totalCount;
   let edgeAry = value.data.repository.mentionableUsers.edges;
 
-
-  // processEdgeAry(edgeAry, city);
+  processEdgeAry(edgeAry, repository);
 
   let edgeAryLength = edgeAry.length;
   let cursor = edgeAry[edgeAryLength - 1].cursor;
@@ -153,21 +152,12 @@ async function getCursorFromData(client, value, repository) {
 */
 }
 
-function processEdgeAry(edgeAry, location) {
+function processEdgeAry(edgeAry,repository) {
   edgeAry.forEach(function(item) {
-    //
-    //  Leave this here for later when you want to do some filtering
-    //  based on regex matching to filter out for example
-    //  South Bend, Indiana from Bend, Oregon
-    //  For now South Bend, Indiana is getting in there
-    //  When I just put in Bend
-    //
-    //  let location = item.node.location;
-    //
     let login = item.node.login;
-    let name = item.node.name;
-    writeLocation(login, location);
-    writeName(login, name);
+    // eventually we will rename this method
+    // but for now it sadd's a member to a set
+    writeLocation(login, repository);
   });
 }
 
