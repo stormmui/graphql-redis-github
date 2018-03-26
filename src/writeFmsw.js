@@ -77,7 +77,12 @@ const repositoryMentionableUsersWithCursor = gql`
 `;
 
 async function getInitialGithubData(client, nameWithOwner) {
-  const options = { owner: owner, name: name };
+
+  const test1 = "graphql/graphql-js"
+  const result = nameWithOwner.split("/");
+  // console.log(result);
+
+  const options = { owner: result[0], name: result[1] };
   return new Promise((resolve, reject) => {
     client
       .query({
@@ -169,11 +174,12 @@ async function goGql(repository) {
   let client = await getClient(githubApiKey);
   let myjson = await getInitialGithubData(client, repository);
   let myredis = await handleRedis(myjson);
-  // await getCursorFromData(client, myredis, city);
+  console.log(myredis);
+  // await getCursorFromData(client, myredis, repository);
 }
 
 const repositories = ["graphql/graphql-js"];
 
-cities.forEach(function(repository) {
+repositories.forEach(function(repository) {
   goGql(repository);
 });
