@@ -5,7 +5,7 @@
   "main": "ex1.js",
   "scripts": {
     "build": "babel src -d lib",
-    "start": "npm run build && node lib/writeFmsw.js",
+    "start": "npm run build && node lib/writeMentionableUsers.js",
     "test": "babel-node ./node_modules/.bin/_mocha $npm_package_options_mocha"
   },
   "options": {
