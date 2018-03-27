@@ -41,24 +41,6 @@ async function getClient(githubApiKey) {
 }
 
 const repositoryStarGazers = gql`
-  query StarGazers($owner: String!, $name: String!) {
-    repository(owner: $owner, name: $name) {
-      name
-      nameWithOwner
-      stargazers(first: 100) {
-        totalCount
-        edges {
-          cursor
-          node {
-            login
-          }
-        }
-      }
-    }
-  }
-`;
-
-const repositoryStarGazersWithCursor = gql`
   query StarGazers($owner: String!, $name: String!, $after: String) {
     repository(owner: $owner, name: $name) {
       name
@@ -99,7 +81,7 @@ async function getGithubData(client, options) {
   return new Promise((resolve, reject) => {
     client
       .query({
-        query: repositoryStarGazersWithCursor,
+        query: repositoryStarGazers,
         variables: options
       })
       .then(data => {

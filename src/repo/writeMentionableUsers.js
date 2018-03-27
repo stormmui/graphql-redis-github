@@ -41,24 +41,6 @@ async function getClient(githubApiKey) {
 }
 
 const repositoryMentionableUsers = gql`
-  query MentionableUsers($owner: String!, $name: String!) {
-    repository(owner: $owner, name: $name) {
-      name
-      nameWithOwner
-      mentionableUsers(first: 100) {
-        totalCount
-        edges {
-          cursor
-          node {
-            login
-          }
-        }
-      }
-    }
-  }
-`;
-
-const repositoryMentionableUsersWithCursor = gql`
   query MentionableUsers($owner: String!, $name: String!, $after: String) {
     repository(owner: $owner, name: $name) {
       name
@@ -99,7 +81,7 @@ async function getGithubData(client, options) {
   return new Promise((resolve, reject) => {
     client
       .query({
-        query: repositoryMentionableUsersWithCursor,
+        query: repositoryMentionableUsers,
         variables: options
       })
       .then(data => {

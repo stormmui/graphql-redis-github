@@ -41,26 +41,6 @@ async function getClient(githubApiKey) {
 }
 
 const repositoryForks = gql`
-  query Forks($owner: String!, $name: String!) {
-    repository(owner: $owner, name: $name) {
-      name
-      nameWithOwner
-      forks(first: 100) {
-        totalCount
-        edges {
-          cursor
-          node {
-            owner {
-              login
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-const repositoryForksWithCursor = gql`
   query Forks($owner: String!, $name: String!, $after: String) {
     repository(owner: $owner, name: $name) {
       name
@@ -103,7 +83,7 @@ async function getGithubData(client, options) {
   return new Promise((resolve, reject) => {
     client
       .query({
-        query: repositoryForksWithCursor,
+        query: repositoryForks,
         variables: options
       })
       .then(data => {

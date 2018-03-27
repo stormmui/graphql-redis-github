@@ -41,24 +41,6 @@ async function getClient(githubApiKey) {
 }
 
 const repositoryWatchers = gql`
-  query Watchers($owner: String!, $name: String!) {
-    repository(owner: $owner, name: $name) {
-      name
-      nameWithOwner
-      watchers(first: 100) {
-        totalCount
-        edges {
-          cursor
-          node {
-            login
-          }
-        }
-      }
-    }
-  }
-`;
-
-const repositoryWatchersWithCursor = gql`
   query Watchers($owner: String!, $name: String!, $after: String) {
     repository(owner: $owner, name: $name) {
       name
@@ -99,7 +81,7 @@ async function getGithubData(client, options) {
   return new Promise((resolve, reject) => {
     client
       .query({
-        query: repositoryWatchersWithCursor,
+        query: repositoryWatchers,
         variables: options
       })
       .then(data => {
