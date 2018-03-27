@@ -5,6 +5,7 @@ import {
   readJsonDataFromFilename
 } from "./../util/fileutil";
 import { getClient } from "./../util/apollo-util";
+import { getInitialGithubData, getGithubData } from "./../util/github-util";
 
 const repositoryMentionableUsers = gql`
   query MentionableUsers($owner: String!, $name: String!, $after: String) {
@@ -24,41 +25,6 @@ const repositoryMentionableUsers = gql`
   }
 `;
 
-async function getInitialGithubData(client, repository) {
-  const result = repository.split("/");
-  const options = { owner: result[0], name: result[1] };
-
-  return new Promise((resolve, reject) => {
-    client
-      .query({
-        query: repositoryMentionableUsers,
-        variables: options
-      })
-      .then(data => {
-        resolve(data);
-      })
-      .catch(error => {
-        reject(error);
-      });
-  });
-}
-
-async function getGithubData(client, options) {
-  return new Promise((resolve, reject) => {
-    client
-      .query({
-        query: repositoryMentionableUsers,
-        variables: options
-      })
-      .then(data => {
-        resolve(data);
-      })
-      .catch(error => {
-        reject(error);
-      });
-  });
-}
-
 async function handleRedis(githubData) {
   return Promise.resolve(githubData)
     .then(function(mike) {
@@ -73,7 +39,7 @@ async function iterateOverCursor(client, cursor, repository) {
   const result = repository.split("/");
   const options = { owner: result[0], name: result[1], after: cursor };
 
-  let myjson = await getGithubData(client, options);
+  let myjson = await getGithubData(client, options, repositoryMentionableUsers);
   let myredis = await handleRedis(myjson);
   await getCursorFromData(client, myredis, repository);
 }
@@ -109,7 +75,11 @@ function processEdgeAry(edgeAry, repository) {
 async function goGql(repository) {
   let githubApiKey = await getJsonKeyFromFile("./data/f1.js");
   let client = await getClient(githubApiKey);
-  let myjson = await getInitialGithubData(client, repository);
+  let myjson = await getInitialGithubData(
+    client,
+    repository,
+    repositoryMentionableUsers
+  );
   let myredis = await handleRedis(myjson);
   console.log(myredis);
   await getCursorFromData(client, myredis, repository);
