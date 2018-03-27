@@ -142,7 +142,7 @@ async function getCursorFromData(client, value, repository) {
   console.log("edgeAry length = ", edgeAryLength);
   console.log("cursor = ", cursor);
 
-  if (edgeAryLength == 1) {
+  if (edgeAryLength < 100) {
     return 1;
   }
 

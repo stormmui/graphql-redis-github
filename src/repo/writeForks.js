@@ -40,8 +40,8 @@ async function getClient(githubApiKey) {
   return client;
 }
 
-const repositoryMentionableUsers = gql`
-  query MentionableUsers($owner: String!, $name: String!) {
+const repositoryForks = gql`
+  query Forks($owner: String!, $name: String!) {
     repository(owner: $owner, name: $name) {
       name
       nameWithOwner
@@ -60,8 +60,8 @@ const repositoryMentionableUsers = gql`
   }
 `;
 
-const repositoryMentionableUsersWithCursor = gql`
-  query MentionableUsers($owner: String!, $name: String!, $after: String) {
+const repositoryForksWithCursor = gql`
+  query Forks($owner: String!, $name: String!, $after: String) {
     repository(owner: $owner, name: $name) {
       name
       nameWithOwner
@@ -87,7 +87,7 @@ async function getInitialGithubData(client, repository) {
   return new Promise((resolve, reject) => {
     client
       .query({
-        query: repositoryMentionableUsers,
+        query: repositoryForks,
         variables: options
       })
       .then(data => {
@@ -103,7 +103,7 @@ async function getGithubData(client, options) {
   return new Promise((resolve, reject) => {
     client
       .query({
-        query: repositoryMentionableUsersWithCursor,
+        query: repositoryForksWithCursor,
         variables: options
       })
       .then(data => {
@@ -146,7 +146,7 @@ async function getCursorFromData(client, value, repository) {
   console.log("edgeAry length = ", edgeAryLength);
   console.log("cursor = ", cursor);
 
-  if (edgeAryLength == 1) {
+  if (edgeAryLength < 100) {
     return 1;
   }
 

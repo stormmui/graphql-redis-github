@@ -5,10 +5,10 @@
   "main": "ex1.js",
   "scripts": {
     "build": "babel src -d lib",
-    "s1": "npm run build && node lib/repo/writeMentionableUsers.js",
-    "s2": "npm run build && node lib/repo/writeStarGazers.js",
-    "s3": "npm run build && node lib/repo/writeWatchers.js",
-    "s4": "npm run build && node lib/repo/writeForks.js",
+    "s1": "npm run build && node lib/repo/writeForks.js",
+    "s2": "npm run build && node lib/repo/writeMentionableUsers.js",
+    "s3": "npm run build && node lib/repo/writeStarGazers.js",
+    "s4": "npm run build && node lib/repo/writeWatchers.js",
     "s5": "npm run build && node lib/location/writeUser.js",
     "test": "babel-node ./node_modules/.bin/_mocha $npm_package_options_mocha"
   },
