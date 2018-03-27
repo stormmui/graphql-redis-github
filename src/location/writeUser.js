@@ -41,32 +41,7 @@ async function getClient(githubApiKey) {
 }
 
 const locationQuery = gql`
-  query LocationSearch($location: String!) {
-    search(query: $location, type: USER, first: 100) {
-      userCount
-      edges {
-        cursor
-        node {
-          ... on User {
-            name
-            login
-            location
-            __typename
-          }
-          ... on Organization {
-            name
-            login
-            location
-            __typename
-          }
-        }
-      }
-    }
-  }
-`;
-
-const locationQueryWithCursor = gql`
-  query LocationSearchCursor($location: String!, $before: String) {
+  query LocationSearch($location: String!, $before: String) {
     search(query: $location, type: USER, first: 100, before: $before) {
       userCount
       edges {
@@ -113,7 +88,7 @@ async function getGithubData(client, options) {
   return new Promise((resolve, reject) => {
     client
       .query({
-        query: locationQueryWithCursor,
+        query: locationQuery,
         variables: options
       })
       .then(data => {
