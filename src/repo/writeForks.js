@@ -5,7 +5,7 @@ import fetch from "node-fetch";
 import gql from "graphql-tag";
 import * as fs from "fs";
 
-import { writeLocation, writeName } from "./redis/writeUtils";
+import { writeLocation, writeName } from "./../redis/writeUtils";
 
 async function getJsonKeyFromFile(filename) {
   var r1 = await readJsonDataFromFilename(filename, "utf8");
@@ -45,12 +45,14 @@ const repositoryMentionableUsers = gql`
     repository(owner: $owner, name: $name) {
       name
       nameWithOwner
-      mentionableUsers(first: 100) {
+      forks(first: 100) {
         totalCount
         edges {
           cursor
           node {
-            login
+            owner {
+              login
+            }
           }
         }
       }
@@ -63,12 +65,14 @@ const repositoryMentionableUsersWithCursor = gql`
     repository(owner: $owner, name: $name) {
       name
       nameWithOwner
-      mentionableUsers(first: 100, after: $after) {
+      forks(first: 100, after: $after) {
         totalCount
         edges {
           cursor
           node {
-            login
+            owner {
+              login
+            }
           }
         }
       }
@@ -131,8 +135,8 @@ async function iterateOverCursor(client, cursor, repository) {
 }
 
 async function getCursorFromData(client, value, repository) {
-  let userCount = value.data.repository.mentionableUsers.totalCount;
-  let edgeAry = value.data.repository.mentionableUsers.edges;
+  let userCount = value.data.repository.forks.totalCount;
+  let edgeAry = value.data.repository.forks.edges;
 
   processEdgeAry(edgeAry, repository);
 
@@ -151,7 +155,7 @@ async function getCursorFromData(client, value, repository) {
 
 function processEdgeAry(edgeAry, repository) {
   edgeAry.forEach(function(item) {
-    let login = item.node.login;
+    let login = item.node.owner.login;
     // eventually we will rename this method
     // but for now it sadd's a member to a set
     writeLocation(login, repository);

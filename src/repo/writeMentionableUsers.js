@@ -5,7 +5,7 @@ import fetch from "node-fetch";
 import gql from "graphql-tag";
 import * as fs from "fs";
 
-import { writeLocation, writeName } from "./redis/writeUtils";
+import { writeLocation, writeName } from "./../redis/writeUtils";
 
 async function getJsonKeyFromFile(filename) {
   var r1 = await readJsonDataFromFilename(filename, "utf8");
@@ -45,7 +45,7 @@ const repositoryMentionableUsers = gql`
     repository(owner: $owner, name: $name) {
       name
       nameWithOwner
-      watchers(first: 100) {
+      mentionableUsers(first: 100) {
         totalCount
         edges {
           cursor
@@ -63,7 +63,7 @@ const repositoryMentionableUsersWithCursor = gql`
     repository(owner: $owner, name: $name) {
       name
       nameWithOwner
-      watchers(first: 100, after: $after) {
+      mentionableUsers(first: 100, after: $after) {
         totalCount
         edges {
           cursor
@@ -131,8 +131,8 @@ async function iterateOverCursor(client, cursor, repository) {
 }
 
 async function getCursorFromData(client, value, repository) {
-  let userCount = value.data.repository.watchers.totalCount;
-  let edgeAry = value.data.repository.watchers.edges;
+  let userCount = value.data.repository.mentionableUsers.totalCount;
+  let edgeAry = value.data.repository.mentionableUsers.edges;
 
   processEdgeAry(edgeAry, repository);
 

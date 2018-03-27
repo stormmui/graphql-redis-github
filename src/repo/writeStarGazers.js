@@ -5,7 +5,7 @@ import fetch from "node-fetch";
 import gql from "graphql-tag";
 import * as fs from "fs";
 
-import { writeLocation, writeName } from "./redis/writeUtils";
+import { writeLocation, writeName } from "./../redis/writeUtils";
 
 async function getJsonKeyFromFile(filename) {
   var r1 = await readJsonDataFromFilename(filename, "utf8");
