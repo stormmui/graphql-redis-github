@@ -3,28 +3,12 @@ import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import fetch from "node-fetch";
 import gql from "graphql-tag";
-import * as fs from "fs";
 
 import { writeLocation, writeName } from "./../redis/writeUtils";
-
-async function getJsonKeyFromFile(filename) {
-  var r1 = await readJsonDataFromFilename(filename, "utf8");
-  var r2 = r1.trim();
-  var r3 = JSON.parse(r2);
-  var r4 = r3.key;
-  return r4;
-}
-
-async function readJsonDataFromFilename(fileName, type) {
-  return new Promise((resolve, reject) => {
-    fs.readFile(fileName, type, (err, data) => {
-      if (err) {
-        reject(err);
-      }
-      resolve(data);
-    });
-  });
-}
+import {
+  getJsonKeyFromFile,
+  readJsonDataFromFilename
+} from "./../util/fileutil";
 
 async function getClient(githubApiKey) {
   const client = new ApolloClient({
