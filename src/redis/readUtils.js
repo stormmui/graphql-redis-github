@@ -3,11 +3,8 @@ const { promisify } = require("util");
 
 export async function sismember(key, member) {
   let client = redis.createClient();
-
   let sismember = promisify(client.sismember).bind(client);
   let result = await sismember(key, member);
-
-  // console.log(`${result} has been saved.`);
   client.quit();
   return result;
 }

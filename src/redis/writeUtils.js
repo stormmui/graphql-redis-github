@@ -1,13 +1,10 @@
 var redis = require("redis");
 const { promisify } = require("util");
 
-export async function writeLocation(login, location) {
+export async function sadd(key, member) {
   let client = redis.createClient();
-
   let sadd = promisify(client.sadd).bind(client);
-  let writeResult = await sadd(location, login);
-
-  // console.log(`${writeResult} has been saved.`);
+  let writeResult = await sadd(key, member);
   client.quit();
 }
 
