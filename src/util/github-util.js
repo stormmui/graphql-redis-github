@@ -1,7 +1,4 @@
-export async function getInitialGithubData(client, repository, query) {
-  const result = repository.split("/");
-  const options = { owner: result[0], name: result[1] };
-
+export async function getInitialGithubData(client, options, query) {
   return new Promise((resolve, reject) => {
     client
       .query({

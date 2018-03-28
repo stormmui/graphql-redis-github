@@ -28,18 +28,23 @@ const repositoryMentionableUsers = gql`
 
 async function iterateOverCursor(client, cursor, repository) {
   const result = repository.split("/");
-  const options = { owner: result[0], name: result[1], after: cursor };
+  const options = {
+    repository: repository,
+    owner: result[0],
+    name: result[1],
+    after: cursor
+  };
 
   let myjson = await getGithubData(client, options, repositoryMentionableUsers);
   let myredis = await handlePromise(myjson);
-  await getCursorFromData(client, myredis, repository);
+  await getCursorFromData(client, myredis, options);
 }
 
-async function getCursorFromData(client, value, repository) {
+async function getCursorFromData(client, value, options) {
   let userCount = value.data.repository.mentionableUsers.totalCount;
   let edgeAry = value.data.repository.mentionableUsers.edges;
 
-  processEdgeAry(edgeAry, repository);
+  processEdgeAry(edgeAry, options.repository);
 
   let edgeAryLength = edgeAry.length;
   let cursor = edgeAry[edgeAryLength - 1].cursor;
@@ -51,7 +56,7 @@ async function getCursorFromData(client, value, repository) {
     return 1;
   }
 
-  iterateOverCursor(client, cursor, repository);
+  iterateOverCursor(client, cursor, options.repository);
 }
 
 function processEdgeAry(edgeAry, repository) {
@@ -59,25 +64,29 @@ function processEdgeAry(edgeAry, repository) {
     let login = item.node.login;
     // eventually we will rename this method
     // but for now it sadd's a member to a set
+
     writeLocation(login, repository);
   });
 }
 
-async function goGql(repository) {
+async function goGql(options) {
   let githubApiKey = await getJsonKeyFromFile("./data/f1.js");
   let client = await getClient(githubApiKey);
+
   let myjson = await getInitialGithubData(
     client,
-    repository,
+    options,
     repositoryMentionableUsers
   );
   let myredis = await handlePromise(myjson);
   console.log(myredis);
-  await getCursorFromData(client, myredis, repository);
+  await getCursorFromData(client, myredis, options);
 }
 
 const repositories = ["graphql/graphql-js"];
 
 repositories.forEach(function(repository) {
-  goGql(repository);
+  const result = repository.split("/");
+  const options = { repository: repository, owner: result[0], name: result[1] };
+  goGql(options);
 });
