@@ -8,12 +8,9 @@ export async function sadd(key, member) {
   client.quit();
 }
 
-export async function writeName(login, name) {
+export async function hset(key, field, value) {
   let client = redis.createClient();
-
   let hset = promisify(client.hset).bind(client);
-  let writeResult = await hset(login, "name", name);
-
-  // console.log(`${writeResult} has been saved.`);
+  let writeResult = await hset(key, field, value);
   client.quit();
 }
