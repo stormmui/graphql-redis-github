@@ -5,7 +5,7 @@ import {
   readJsonDataFromFilename
 } from "./../util/fileutil";
 import { getClient } from "./../util/apollo-util";
-import { getInitialGithubData, getGithubData } from "./../util/github-util";
+import { getGithubData } from "./../util/github-util";
 import { handlePromise } from "./../util/promise-util";
 
 const query = gql`
@@ -72,7 +72,7 @@ function processEdgeAry(edgeAry, repository) {
 async function goGql(options) {
   let githubApiKey = await getJsonKeyFromFile("./data/f1.js");
   let client = await getClient(githubApiKey);
-  let json = await getInitialGithubData(client, options, query);
+  let json = await getGithubData(client, options, query);
   let data = await handlePromise(json);
   await getCursorFromData(client, options, data);
 }
