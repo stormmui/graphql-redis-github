@@ -26,12 +26,11 @@ const query = gql`
   }
 `;
 
-async function iterateOverCursor(client, cursor, repository) {
-  const result = repository.split("/");
+async function iterateOverCursor(client, cursor, options_in) {
   const options = {
-    repository: repository,
-    owner: result[0],
-    name: result[1],
+    repository: options_in.repository,
+    owner: options_in.owner,
+    name: options_in.name,
     after: cursor
   };
 
@@ -56,7 +55,7 @@ async function getCursorFromData(client, options, value) {
     return 1;
   }
 
-  iterateOverCursor(client, cursor, options.repository);
+  iterateOverCursor(client, cursor, options);
 }
 
 function processEdgeAry(edgeAry, repository) {
