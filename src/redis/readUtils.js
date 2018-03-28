@@ -9,15 +9,12 @@ export async function sismember(key, member) {
   return result;
 }
 
-export async function readLocation(location) {
+export async function smembers(key) {
   let client = redis.createClient();
-
-  let sadd = promisify(client.smembers).bind(client);
-  let readResult = await smembers(location);
-
-  // console.log(`${readResult} has been saved.`);
+  let smembers = promisify(client.smembers).bind(client);
+  let result = await smembers(key);
   client.quit();
-  return readResult;
+  return result;
 }
 
 export async function readName(login) {

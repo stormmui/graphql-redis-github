@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
-import { sismember, readLocation, readName } from "../redis/readUtils";
+import { sismember, readName } from "../redis/readUtils";
 import { sadd, hset } from "../redis/writeUtils";
 import { flushdb } from "../redis/flushdb";
 
