@@ -8,7 +8,7 @@ import { getClient } from "./../util/apollo-util";
 import { getInitialGithubData, getGithubData } from "./../util/github-util";
 import { handlePromise } from "./../util/promise-util";
 
-const repositoryMentionableUsers = gql`
+const query = gql`
   query MentionableUsers($owner: String!, $name: String!, $after: String) {
     repository(owner: $owner, name: $name) {
       name
@@ -35,7 +35,7 @@ async function iterateOverCursor(client, cursor, repository) {
     after: cursor
   };
 
-  let json = await getGithubData(client, options, repositoryMentionableUsers);
+  let json = await getGithubData(client, options, query);
   let data = await handlePromise(json);
   await getCursorFromData(client, options, data);
 }
@@ -72,13 +72,8 @@ function processEdgeAry(edgeAry, repository) {
 async function goGql(options) {
   let githubApiKey = await getJsonKeyFromFile("./data/f1.js");
   let client = await getClient(githubApiKey);
-
-  let myjson = await getInitialGithubData(
-    client,
-    options,
-    repositoryMentionableUsers
-  );
-  let data = await handlePromise(myjson);
+  let json = await getInitialGithubData(client, options, query);
+  let data = await handlePromise(json);
   await getCursorFromData(client, options, data);
 }
 
