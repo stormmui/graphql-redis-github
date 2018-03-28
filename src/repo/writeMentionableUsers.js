@@ -35,12 +35,12 @@ async function iterateOverCursor(client, cursor, repository) {
     after: cursor
   };
 
-  let myjson = await getGithubData(client, options, repositoryMentionableUsers);
-  let myredis = await handlePromise(myjson);
-  await getCursorFromData(client, myredis, options);
+  let json = await getGithubData(client, options, repositoryMentionableUsers);
+  let data = await handlePromise(json);
+  await getCursorFromData(client, options, data);
 }
 
-async function getCursorFromData(client, value, options) {
+async function getCursorFromData(client, options, value) {
   let userCount = value.data.repository.mentionableUsers.totalCount;
   let edgeAry = value.data.repository.mentionableUsers.edges;
 
@@ -78,9 +78,8 @@ async function goGql(options) {
     options,
     repositoryMentionableUsers
   );
-  let myredis = await handlePromise(myjson);
-  console.log(myredis);
-  await getCursorFromData(client, myredis, options);
+  let data = await handlePromise(myjson);
+  await getCursorFromData(client, options, data);
 }
 
 const repositories = ["graphql/graphql-js"];
