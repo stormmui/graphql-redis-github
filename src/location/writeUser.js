@@ -4,7 +4,8 @@ import {
   getJsonKeyFromFile,
   readJsonDataFromFilename
 } from "./../util/file-util";
-import { getClient } from "./../util/apollo-util"
+import { getClient } from "./../util/apollo-util";
+import { handlePromise } from "./../util/promise-util";
 
 const locationQuery = gql`
   query LocationSearch($location: String!, $before: String) {
@@ -66,21 +67,11 @@ async function getGithubData(client, options) {
   });
 }
 
-async function handleRedis(githubData) {
-  return Promise.resolve(githubData)
-    .then(function(mike) {
-      return mike;
-    })
-    .catch(error => {
-      console.log(error);
-    });
-}
-
 async function iterateOverCursor(client, cursor, city) {
   const options = { location: `location:${city}`, before: cursor };
 
   let myjson = await getGithubData(client, options);
-  let myredis = await handleRedis(myjson);
+  let myredis = await handlePromise(myjson);
   await getCursorFromData(client, myredis, city);
 }
 
@@ -125,7 +116,7 @@ async function goGql(city) {
   let githubApiKey = await getJsonKeyFromFile("./data/f1.js");
   let client = await getClient(githubApiKey);
   let myjson = await getInitialGithubData(client, city);
-  let myredis = await handleRedis(myjson);
+  let myredis = await handlePromise(myjson);
   await getCursorFromData(client, myredis, city);
 }
 
