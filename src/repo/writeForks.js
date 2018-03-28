@@ -6,6 +6,7 @@ import {
 } from "./../util/fileutil";
 import { getClient } from "./../util/apollo-util";
 import { getInitialGithubData, getGithubData } from "./../util/github-util";
+import { handlePromise } from "./../util/promise-util";
 
 const repositoryForks = gql`
   query Forks($owner: String!, $name: String!, $after: String) {
@@ -27,22 +28,12 @@ const repositoryForks = gql`
   }
 `;
 
-async function handleRedis(githubData) {
-  return Promise.resolve(githubData)
-    .then(function(mike) {
-      return mike;
-    })
-    .catch(error => {
-      console.log(error);
-    });
-}
-
 async function iterateOverCursor(client, cursor, repository) {
   const result = repository.split("/");
   const options = { owner: result[0], name: result[1], after: cursor };
 
   let myjson = await getGithubData(client, options, repositoryForks);
-  let myredis = await handleRedis(myjson);
+  let myredis = await handlePromise(myjson);
   await getCursorFromData(client, myredis, repository);
 }
 
@@ -78,7 +69,7 @@ async function goGql(repository) {
   let githubApiKey = await getJsonKeyFromFile("./data/f1.js");
   let client = await getClient(githubApiKey);
   let myjson = await getInitialGithubData(client, repository, repositoryForks);
-  let myredis = await handleRedis(myjson);
+  let myredis = await handlePromise(myjson);
   console.log(myredis);
   await getCursorFromData(client, myredis, repository);
 }
