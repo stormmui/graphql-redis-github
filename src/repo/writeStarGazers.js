@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { writeLocation, writeName } from "./../redis/writeUtils";
+import { sadd, writeName } from "./../redis/writeUtils";
 import {
   getJsonKeyFromFile,
   readJsonDataFromFilename
@@ -63,7 +63,7 @@ function processEdgeAry(edgeAry, repository) {
     let login = item.node.login;
     // eventually we will rename this method
     // but for now it sadd's a member to a set
-    writeLocation(login, repository);
+    sadd(repository, login);
   });
 }
 
