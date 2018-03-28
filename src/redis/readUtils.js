@@ -1,15 +1,15 @@
 var redis = require("redis");
 const { promisify } = require("util");
 
-export async function locationMember(location, login) {
+export async function sismember(key, member) {
   let client = redis.createClient();
 
   let sismember = promisify(client.sismember).bind(client);
-  let readResult = await sismember(location, login);
+  let result = await sismember(key, member);
 
-  // console.log(`${readResult} has been saved.`);
+  // console.log(`${result} has been saved.`);
   client.quit();
-  return readResult;
+  return result;
 }
 
 export async function readLocation(location) {
