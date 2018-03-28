@@ -8,7 +8,7 @@ import { getClient } from "./../util/apollo-util";
 import { getInitialGithubData, getGithubData } from "./../util/github-util";
 import { handlePromise } from "./../util/promise-util";
 
-const repositoryWatchers = gql`
+const query = gql`
   query Watchers($owner: String!, $name: String!, $after: String) {
     repository(owner: $owner, name: $name) {
       name
@@ -26,6 +26,7 @@ const repositoryWatchers = gql`
   }
 `;
 
+/*
 async function iterateOverCursor(client, cursor, repository) {
   const result = repository.split("/");
   const options = { owner: result[0], name: result[1], after: cursor };
@@ -53,6 +54,40 @@ async function getCursorFromData(client, value, repository) {
 
   iterateOverCursor(client, cursor, repository);
 }
+*/
+
+async function iterateOverCursor(client, cursor, repository) {
+  const result = repository.split("/");
+  const options = {
+    repository: repository,
+    owner: result[0],
+    name: result[1],
+    after: cursor
+  };
+
+  let json = await getGithubData(client, options, query);
+  let data = await handlePromise(json);
+  await getCursorFromData(client, options, data);
+}
+
+async function getCursorFromData(client, options, value) {
+  let userCount = value.data.repository.watchers.totalCount;
+  let edgeAry = value.data.repository.watchers.edges;
+
+  processEdgeAry(edgeAry, options.repository);
+
+  let edgeAryLength = edgeAry.length;
+  let cursor = edgeAry[edgeAryLength - 1].cursor;
+  console.log("userCount = ", userCount);
+  console.log("edgeAry length = ", edgeAryLength);
+  console.log("cursor = ", cursor);
+
+  if (edgeAryLength < 100) {
+    return 1;
+  }
+
+  iterateOverCursor(client, cursor, options.repository);
+}
 
 function processEdgeAry(edgeAry, repository) {
   edgeAry.forEach(function(item) {
@@ -63,6 +98,7 @@ function processEdgeAry(edgeAry, repository) {
   });
 }
 
+/*
 async function goGql(repository) {
   let githubApiKey = await getJsonKeyFromFile("./data/f1.js");
   let client = await getClient(githubApiKey);
@@ -76,8 +112,25 @@ async function goGql(repository) {
   await getCursorFromData(client, myredis, repository);
 }
 
+
 const repositories = ["graphql/graphql-js"];
 
 repositories.forEach(function(repository) {
   goGql(repository);
+});
+*/
+async function goGql(options) {
+  let githubApiKey = await getJsonKeyFromFile("./data/f1.js");
+  let client = await getClient(githubApiKey);
+  let json = await getGithubData(client, options, query);
+  let data = await handlePromise(json);
+  await getCursorFromData(client, options, data);
+}
+
+const repositories = ["graphql/graphql-js"];
+
+repositories.forEach(function(repository) {
+  const result = repository.split("/");
+  const options = { repository: repository, owner: result[0], name: result[1] };
+  goGql(options);
 });
