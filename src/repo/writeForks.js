@@ -3,7 +3,7 @@ import { writeLocation, writeName } from "./../redis/writeUtils";
 import {
   getJsonKeyFromFile,
   readJsonDataFromFilename
-} from "./../util/fileutil";
+} from "./../util/file-util";
 import { getClient } from "./../util/apollo-util";
 import { getInitialGithubData, getGithubData } from "./../util/github-util";
 import { handlePromise } from "./../util/promise-util";
