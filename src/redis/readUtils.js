@@ -17,13 +17,10 @@ export async function smembers(key) {
   return result;
 }
 
-export async function readName(login) {
+export async function hget(key, field) {
   let client = redis.createClient();
-
   let hget = promisify(client.hget).bind(client);
-  let readResult = await hget(login, "name");
-
-  // console.log(`${writeResult} has been saved.`);
+  let result = await hget(key, field);
   client.quit();
-  return readResult;
+  return result;
 }
