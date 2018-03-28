@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { sadd, writeName } from "./../redis/writeUtils";
+import { sadd } from "./../redis/writeUtils";
 import {
   getJsonKeyFromFile,
   readJsonDataFromFilename
