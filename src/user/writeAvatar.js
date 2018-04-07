@@ -11,10 +11,10 @@ import { handlePromise } from "./../util/promise-util";
 const query = gql`
   query User($owner: String!) {
     user(login: $owner) {
-       avatarUrl(size: 400)
-       location
-       name
-     }
+      avatarUrl(size: 400)
+      location
+      name
+    }
   }
 `;
 
@@ -36,11 +36,11 @@ async function getUserFromData(client, options, value) {
   let location = value.data.user.location;
   let name = value.data.user.name;
 
-  console.log("avatar ",avatar);
-  console.log("location ",location);
-  console.log("name ",name);
+  console.log("avatar ", avatar);
+  console.log("location ", location);
+  console.log("name ", name);
 
-/*
+  /*
   processEdgeAry(edgeAry, options.repository);
 
   let edgeAryLength = edgeAry.length;
@@ -56,7 +56,6 @@ async function getUserFromData(client, options, value) {
   iterateOverCursor(client, cursor, options);
 */
 }
-
 
 async function getCursorFromData(client, options, value) {
   let userCount = value.data.repository.stargazers.totalCount;
@@ -91,11 +90,11 @@ async function goGql(options) {
   let client = await getClient(githubApiKey);
   let json = await getGithubData(client, options, query);
   let data = await handlePromise(json);
-  await getUserFromData(client, options, data);  
+  await getUserFromData(client, options, data);
   //await getCursorFromData(client, options, data);
 }
 
-const users = ["oliviertassinari","stormasm","antirez"];
+const users = ["oliviertassinari", "stormasm", "antirez"];
 
 users.forEach(function(user) {
   const options = { owner: user };
