@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { sadd } from "./../redis/writeUtils";
+import { hset } from "./../redis/writeUtils";
 import {
   getJsonKeyFromFile,
   readJsonDataFromFilename
@@ -9,8 +9,8 @@ import { getGithubData } from "./../util/github-util";
 import { handlePromise } from "./../util/promise-util";
 
 const query = gql`
-  query User($owner: String!) {
-    user(login: $owner) {
+  query User($login: String!) {
+    user(login: $login) {
       avatarUrl(size: 400)
       location
       name
@@ -18,10 +18,11 @@ const query = gql`
   }
 `;
 
+/*
 async function iterateOverCursor(client, cursor, options_in) {
   const options = {
     repository: options_in.repository,
-    owner: options_in.owner,
+    login: options_in.login,
     name: options_in.name,
     after: cursor
   };
@@ -30,16 +31,22 @@ async function iterateOverCursor(client, cursor, options_in) {
   let data = await handlePromise(json);
   await getCursorFromData(client, options, data);
 }
+*/
 
 async function getUserFromData(client, options, value) {
+  let login = options.login;
   let avatar = value.data.user.avatarUrl;
   let location = value.data.user.location;
   let name = value.data.user.name;
 
-  console.log("avatar ", avatar);
-  console.log("location ", location);
-  console.log("name ", name);
+  //console.log("avatar ", avatar);
+  //console.log("location ", location);
+  //console.log("name ", name);
+  console.log(login);
 
+  hset(login, "avatar", avatar);
+  hset(login, "location", location);
+  hset(login, "name", name);
   /*
   processEdgeAry(edgeAry, options.repository);
 
@@ -57,6 +64,7 @@ async function getUserFromData(client, options, value) {
 */
 }
 
+/*
 async function getCursorFromData(client, options, value) {
   let userCount = value.data.repository.stargazers.totalCount;
   let edgeAry = value.data.repository.stargazers.edges;
@@ -84,6 +92,7 @@ function processEdgeAry(edgeAry, repository) {
     sadd(repository, login);
   });
 }
+*/
 
 async function goGql(options) {
   let githubApiKey = await getJsonKeyFromFile("./data/f1.js");
@@ -94,9 +103,12 @@ async function goGql(options) {
   //await getCursorFromData(client, options, data);
 }
 
-const users = ["oliviertassinari", "stormasm", "antirez"];
+async function writeAvatars(logins) {
+  logins.forEach(function(user) {
+    const options = { login: user };
+    goGql(options);
+  });
+}
 
-users.forEach(function(user) {
-  const options = { owner: user };
-  goGql(options);
-});
+const logins = ["oliviertassinari", "stormasm", "antirez"];
+writeAvatars(logins);
