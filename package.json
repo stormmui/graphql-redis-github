@@ -10,6 +10,7 @@
     "s3": "npm run build && node lib/repo/writeStarGazers.js",
     "s4": "npm run build && node lib/repo/writeWatchers.js",
     "s5": "npm run build && node lib/location/writeUser.js",
+    "s6": "npm run build && node lib/user/writeAvatar.js",
     "test": "babel-node ./node_modules/.bin/_mocha $npm_package_options_mocha"
   },
   "options": {
