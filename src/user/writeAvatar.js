@@ -42,12 +42,13 @@ async function goGql(options) {
   await getUserFromData(client, options, data);
 }
 
-async function writeAvatars(logins) {
+export async function writeAvatars(logins) {
   logins.forEach(function(user) {
     const options = { login: user };
     goGql(options);
   });
 }
 
-const logins = ["oliviertassinari", "stormasm", "antirez"];
-writeAvatars(logins);
+// For testing only
+// const logins = ["oliviertassinari", "stormasm", "antirez"];
+// writeAvatars(logins);
