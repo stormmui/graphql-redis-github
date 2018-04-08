@@ -75,7 +75,8 @@ async function goGql(options) {
   await getCursorFromData(client, options, data);
 }
 
-const repositories = ["graphql/graphql-js"];
+//const repositories = ["graphql/graphql-js"];
+const repositories = ["boundary/html5-node-diagram"];
 
 repositories.forEach(function(repository) {
   const result = repository.split("/");
