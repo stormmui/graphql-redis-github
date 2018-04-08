@@ -29,9 +29,15 @@ async function getUserFromData(client, options, value) {
   //console.log("name ", name);
   console.log(login);
 
-  hset(login, "avatar", avatar);
-  hset(login, "location", location);
-  hset(login, "name", name);
+  if (avatar != null) {
+    hset(login, "avatar", avatar);
+  }
+  if (location != null) {
+    hset(login, "location", location);
+  }
+  if (name != null) {
+    hset(login, "name", name);
+  }
 }
 
 async function goGql(options) {
