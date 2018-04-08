@@ -27,7 +27,7 @@ async function getUserFromData(client, options, value) {
   //console.log("avatar ", avatar);
   //console.log("location ", location);
   //console.log("name ", name);
-  console.log(login);
+  //console.log(login);
 
   if (avatar != null) {
     hset(login, "avatar", avatar);
