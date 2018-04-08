@@ -5,38 +5,16 @@ async function goGql2(login) {
     let location = await hget(login,"location");
     let name = await hget(login,"name");
     let avatar = await hget(login, "avatar");
-
-
-
-
     return new Promise((resolve, reject) => {
-
-      //console.log(login, name, location, avatar);
       let myobj = {};
       myobj.location = location;
       myobj.name = name;
       myobj.avatar = avatar;
-      console.log(myobj);
+      //console.log(myobj);
       resolve(myobj);
-
       var reason = new Error('mom is not happy');
       reject(reason);
-
-
-
-
-
-
-
     });
-
-
-
-
-
-
-
-
 }
 
 async function goGql1(repository) {
