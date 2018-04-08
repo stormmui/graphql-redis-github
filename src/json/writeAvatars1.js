@@ -12,23 +12,29 @@ async function goGql2(login) {
       myobj.avatar = avatar;
       //console.log(myobj);
       resolve(myobj);
-      var reason = new Error('mom is not happy');
+      var reason = new Error('goGql2 problem');
       reject(reason);
     });
 }
 
 async function goGql1(repository) {
   let logins = await smembers(repository);
+  return new Promise((resolve, reject) => {
   let myjson = [];
   logins.forEach(function(login) {
     let myobj = goGql2(login);
     myjson.push(myobj);
   });
+  resolve(myjson);
+  var reason = new Error('goGql1 problem');
+  reject(reason);
+  });
 }
 
 async function writeAvatars(repositories) {
   repositories.forEach(function(repository) {
-    goGql1(repository);
+    let result = goGql1(repository);
+    console.log(result);
   });
 }
 
