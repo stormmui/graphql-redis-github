@@ -24,3 +24,11 @@ export async function hget(key, field) {
   client.quit();
   return result;
 }
+
+export async function hgetall(key) {
+  let client = redis.createClient();
+  let hgetall = promisify(client.hgetall).bind(client);
+  let result = await hgetall(key);
+  client.quit();
+  return result;
+}
