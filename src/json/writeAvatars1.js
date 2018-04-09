@@ -45,7 +45,8 @@ async function writeAvatars(repositories) {
 }
 
 async function go() {
-  const repositories = ["boundary/html5-node-diagram"];
+  //const repositories = ["boundary/html5-node-diagram"];
+  const repositories = ["augustl/nodejs-sandboxed-fs"];
   let result = await writeAvatars(repositories);
   console.log(result);
 }

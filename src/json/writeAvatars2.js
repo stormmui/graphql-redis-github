@@ -24,19 +24,26 @@ async function goGql1(repository) {
     // console.log(login);
     let myobj = await goGql2(login);
     myjson.push(myobj);
-    console.log(myjson);
+    //console.log(myjson);
   }
+
+  return new Promise((resolve, reject) => {
+    resolve(myjson);
+    var reason = new Error("goGql2 problem");
+    reject(reason);
+  });
 }
 
 async function writeAvatars(repositories) {
   for (const repository of repositories) {
     let result = await goGql1(repository);
-    // console.log(result);
+    console.log(result);
   }
 }
 
 async function go() {
-  const repositories = ["boundary/html5-node-diagram"];
+  //const repositories = ["boundary/html5-node-diagram"];
+  const repositories = ["augustl/nodejs-sandboxed-fs"];
   await writeAvatars(repositories);
 }
 

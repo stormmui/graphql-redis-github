@@ -76,8 +76,8 @@ async function goGql(options) {
 }
 
 //const repositories = ["graphql/graphql-js"];
-const repositories = ["boundary/html5-node-diagram"];
-
+//const repositories = ["boundary/html5-node-diagram"];
+const repositories = ["augustl/nodejs-sandboxed-fs"];
 repositories.forEach(function(repository) {
   const result = repository.split("/");
   const options = { repository: repository, owner: result[0], name: result[1] };

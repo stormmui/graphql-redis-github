@@ -23,5 +23,6 @@ async function writeAvatars(repositories) {
   });
 }
 
-const repositories = ["boundary/html5-node-diagram"];
+//const repositories = ["boundary/html5-node-diagram"];
+const repositories = ["augustl/nodejs-sandboxed-fs"];
 writeAvatars(repositories);
