@@ -12,9 +12,8 @@ async function goGql2(login) {
     myobj.location = location;
     myobj.name = name;
     myobj.avatar = avatar;
-    //console.log(myobj);
     resolve(myobj);
-    var reason = new Error("goGql2 problem");
+    var reason = new Error("writeAvatarsJson goGql2 problem");
     reject(reason);
   });
 }
@@ -23,15 +22,13 @@ async function goGql1(repository) {
   let logins = await smembers(repository);
   let myjson = [];
   for (const login of logins) {
-    // console.log(login);
     let myobj = await goGql2(login);
     myjson.push(myobj);
-    //console.log(myjson);
   }
 
   return new Promise((resolve, reject) => {
     resolve(myjson);
-    var reason = new Error("goGql2 problem");
+    var reason = new Error("writeAvatarsJson goGql1 problem");
     reject(reason);
   });
 }
@@ -46,7 +43,6 @@ async function writeAvatars(repositories) {
     };
 
     let data = await goGql1(repository);
-    //console.log(data);
     let json = JSON.stringify(data);
     let filename = "./data/out/" + options.name + ".js";
     await writeJsonDataToFilename(filename, json);
