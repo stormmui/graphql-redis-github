@@ -11,8 +11,8 @@ describe("Github Redis User", () => {
     });
 
     it("Write location to redis", async () => {
-      sadd("corvallis", "stormasm");
-      hset("stormasm", "name", "michael angerman");
+      await sadd("corvallis", "stormasm");
+      await hset("stormasm", "name", "michael angerman");
       const result1 = await sismember("corvallis", "stormasm");
       expect(result1).to.deep.equal(1);
       const result2 = await hget("stormasm", "name");
