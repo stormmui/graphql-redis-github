@@ -38,16 +38,28 @@ async function goGql1(repository) {
 
 async function writeAvatars(repositories) {
   for (const repository of repositories) {
-    let result = await goGql1(repository);
-    //console.log(result);
-    let json = JSON.stringify(result);
-    await writeJsonDataToFilename("./data/out/avatar.js", json);
+    const result = repository.split("/");
+    const options = {
+      repository: repository,
+      owner: result[0],
+      name: result[1]
+    };
+
+    let data = await goGql1(repository);
+    //console.log(data);
+    let json = JSON.stringify(data);
+    let filename = "./data/out/" + options.name + ".js";
+    await writeJsonDataToFilename(filename, json);
   }
 }
 
+const repositories = [
+  "adamsanderson/ivy",
+  "augustl/nodejs-sandboxed-fs",
+  "boundary/html5-node-diagram"
+];
+
 async function go() {
-  //const repositories = ["boundary/html5-node-diagram"];
-  const repositories = ["augustl/nodejs-sandboxed-fs"];
   await writeAvatars(repositories);
 }
 

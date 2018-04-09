@@ -1,15 +1,11 @@
-import { hgetall, smembers } from "./../redis/readUtils";
+import { smembers } from "./../redis/readUtils";
 import { writeAvatar } from "./../user/writeAvatar";
 
-async function goGql1(repository) {
-  let result = await smembers(repository);
-  await writeAvatar(result);
-}
-
 async function writeAvatars(repositories) {
-  repositories.forEach(function(repository) {
-    goGql1(repository);
-  });
+  for (const repository of repositories) {
+    let result = await smembers(repository);
+    await writeAvatar(result);
+  }
 }
 
 const repositories = [
