@@ -61,8 +61,6 @@ async function getCursorFromData(client, options, value) {
 function processEdgeAry(edgeAry, repository) {
   edgeAry.forEach(function(item) {
     let login = item.node.login;
-    // eventually we will rename this method
-    // but for now it sadd's a member to a set
     sadd(repository, login);
   });
 }
