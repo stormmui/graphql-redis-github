@@ -8,6 +8,7 @@ async function goGql2(login) {
   let avatar = await hget(login, "avatar");
   return new Promise((resolve, reject) => {
     let myobj = {};
+    myobj.login = login;
     myobj.location = location;
     myobj.name = name;
     myobj.avatar = avatar;
