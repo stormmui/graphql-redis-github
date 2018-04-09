@@ -1,5 +1,6 @@
 import { hget, smembers } from "./../redis/readUtils";
 import { writeAvatar } from "./../user/writeAvatar";
+import { writeJsonDataToFilename } from "../util/file-util";
 
 async function goGql2(login) {
   let location = await hget(login, "location");
@@ -37,7 +38,9 @@ async function goGql1(repository) {
 async function writeAvatars(repositories) {
   for (const repository of repositories) {
     let result = await goGql1(repository);
-    console.log(result);
+    //console.log(result);
+    let json = JSON.stringify(result);
+    await writeJsonDataToFilename("./data/avatar.js", json);
   }
 }
 
