@@ -73,9 +73,17 @@ async function goGql(options) {
   await getCursorFromData(client, options, data);
 }
 
-//const repositories = ["graphql/graphql-js"];
+//const repositories = ["adamsanderson/ivy"];
+//const repositories = ["augustl/nodejs-sandboxed-fs"];
 //const repositories = ["boundary/html5-node-diagram"];
-const repositories = ["augustl/nodejs-sandboxed-fs"];
+//const repositories = ["graphql/graphql-js"];
+
+const repositories = [
+  "adamsanderson/ivy",
+  "augustl/nodejs-sandboxed-fs",
+  "boundary/html5-node-diagram"
+];
+
 repositories.forEach(function(repository) {
   const result = repository.split("/");
   const options = { repository: repository, owner: result[0], name: result[1] };
