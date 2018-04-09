@@ -16,7 +16,7 @@
     "s7": "npm run build && node lib/json/writeAvatars.js",
     "s8": "npm run build && node lib/json/writeAvatarsJson.js",
 
-    "s9": "npm run build && npm run s3 && npm run s7 && npm run s8",
+    "s9": "npm run build && node lib/repo/writeStarGazers.js && node lib/json/writeAvatars.js && node lib/json/writeAvatarsJson.js",
     "test": "babel-node ./node_modules/.bin/_mocha $npm_package_options_mocha"
   },
   "options": {
