@@ -8,7 +8,7 @@ export async function getJsonKeyFromFile(filename) {
   return r4;
 }
 
-export async function readJsonDataFromFilename(fileName, type) {
+export async function readJsonDataFromFilename(fileName, type = "utf8") {
   return new Promise((resolve, reject) => {
     fs.readFile(fileName, type, (err, data) => {
       if (err) {
@@ -21,7 +21,7 @@ export async function readJsonDataFromFilename(fileName, type) {
 
 export async function writeJsonDataToFilename(fileName, data) {
   return new Promise((resolve, reject) => {
-    fs.writeFile(fileName, data, (err) => {
+    fs.writeFile(fileName, data, err => {
       if (err) {
         reject(err);
       }
