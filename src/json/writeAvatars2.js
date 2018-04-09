@@ -40,7 +40,7 @@ async function writeAvatars(repositories) {
     let result = await goGql1(repository);
     //console.log(result);
     let json = JSON.stringify(result);
-    await writeJsonDataToFilename("./data/avatar.js", json);
+    await writeJsonDataToFilename("./data/out/avatar.js", json);
   }
 }
 
