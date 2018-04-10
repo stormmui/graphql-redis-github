@@ -1,5 +1,6 @@
 import { smembers } from "./../redis/readUtils";
 import { writeAvatar } from "./../user/writeAvatar";
+import repositories from "./../../data/in/v100.json";
 
 async function writeAvatars(repositories) {
   for (const repository of repositories) {
@@ -7,11 +8,5 @@ async function writeAvatars(repositories) {
     await writeAvatar(result);
   }
 }
-
-const repositories = [
-  "adamsanderson/ivy",
-  "augustl/nodejs-sandboxed-fs",
-  "boundary/html5-node-diagram"
-];
 
 writeAvatars(repositories);

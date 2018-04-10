@@ -1,6 +1,7 @@
 import { hget, smembers } from "./../redis/readUtils";
 import { writeAvatar } from "./../user/writeAvatar";
 import { writeJsonDataToFilename } from "../util/file-util";
+import repositories from "./../../data/in/v100.json";
 
 async function goGql2(login) {
   let location = await hget(login, "location");
@@ -48,12 +49,6 @@ async function writeAvatars(repositories) {
     await writeJsonDataToFilename(filename, json);
   }
 }
-
-const repositories = [
-  "adamsanderson/ivy",
-  "augustl/nodejs-sandboxed-fs",
-  "boundary/html5-node-diagram"
-];
 
 async function go() {
   await writeAvatars(repositories);
