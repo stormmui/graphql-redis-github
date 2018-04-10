@@ -7,6 +7,7 @@ import {
 import { getClient } from "./../util/apollo-util";
 import { getGithubData } from "./../util/github-util";
 import { handlePromise } from "./../util/promise-util";
+import repositories from "./../../data/in/v100.json";
 
 const query = gql`
   query StarGazers($owner: String!, $name: String!, $after: String) {
@@ -72,17 +73,6 @@ async function goGql(options) {
   let data = await handlePromise(json);
   await getCursorFromData(client, options, data);
 }
-
-//const repositories = ["adamsanderson/ivy"];
-//const repositories = ["augustl/nodejs-sandboxed-fs"];
-//const repositories = ["boundary/html5-node-diagram"];
-//const repositories = ["graphql/graphql-js"];
-
-const repositories = [
-  "adamsanderson/ivy",
-  "augustl/nodejs-sandboxed-fs",
-  "boundary/html5-node-diagram"
-];
 
 repositories.forEach(function(repository) {
   const result = repository.split("/");
