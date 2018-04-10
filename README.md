@@ -13,3 +13,6 @@ to a JSON file.
 ```
 npr s9
 ```
+
+This
+[post](https://goenning.net/2016/04/14/stop-reading-json-files-with-require/) discusses how to read or import JSON files correctly.
