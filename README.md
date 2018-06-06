@@ -2,7 +2,7 @@
 
 ### You need to install Redis on your machine
 
-[Details for Redis installation can be found here](https://redis.io/)
+[Click on this link for details on how to install Redis.](https://redis.io/)
 
 ### You need to add this file in your repo
 
