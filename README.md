@@ -28,6 +28,9 @@ to a redis hashmap
 s8 = **writeAvatarsJson** reads the above redis set and writes out the login fields
 to a JSON file.  
 
+For more details on these commands look inside the **scripts** tag
+inside package.json
+
 #### To modify the code and process your own selection of repositories
 
 Modify the file inside **data/in/v100.json**.
