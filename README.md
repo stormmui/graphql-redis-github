@@ -1,5 +1,9 @@
 # graphql-redis-github
 
+### You need to install Redis on your machine
+
+[Details for Redis installation can be found here](https://redis.io/)
+
 ### You need to add this file in your repo
 
 Be sure and not check this file into Github, it should already
