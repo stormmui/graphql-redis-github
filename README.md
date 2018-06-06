@@ -23,7 +23,8 @@ top level **data** directory.  The one line inside the file should be:
 ##### Run this command
 
 ```
-npr s9
+npm install
+npm run s9
 ```
 
 s3 = **writeStarGazers** writes the logins out to a redis set  
@@ -39,7 +40,7 @@ inside package.json
 
 Modify the file inside **data/in/v100.json**.
 
-This will enable you to process any Github repo you want data on.
+This will enable you to process any Github repo you want to retrieve data on.
 
 ### About the code
 
