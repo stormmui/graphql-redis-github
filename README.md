@@ -8,7 +8,7 @@ be listed in the .gitignore file
 [ GitHub personal access token ](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
 
 You need to create a file called **f1.js** and it should be located inside the
-top level **data** directory.
+top level **data** directory.  The one line inside the file should be:
 
 ```
 {"key": "Github personal access token goes here inside the quotes"}
@@ -67,7 +67,7 @@ The Hashmap name is the actual user login.
 ##### Part III
 
 Now that the data is in Redis one can persist the data to a JSON file with
-the code inside json/writeAvatarsJson to a json file named with the actual repository. 
+the code inside json/writeAvatarsJson to a json file named with the actual repository.
 
 ### Coding notes for this repo
 
