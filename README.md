@@ -41,6 +41,7 @@ inside package.json
 #### To modify the code and process your own selection of repositories
 
 Modify the file inside **data/in/v100.json**.
+Modify the file inside **data/in/v101.json**.
 
 This will enable you to process any Github repo you want to retrieve data on.
 
