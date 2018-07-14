@@ -1,6 +1,6 @@
 import { smembers } from "./../redis/readUtils";
 import { writeAvatar } from "./../user/writeAvatar";
-import repositories from "./../../data/in/v100.json";
+import repositories from "./../../data/in/v101.json";
 
 async function writeAvatars(repositories) {
   for (const repository of repositories) {
