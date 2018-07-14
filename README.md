@@ -20,6 +20,8 @@ top level **data** directory.  The one line inside the file should be:
 
 ### To get up and running:
 
+Bring up Redis on your local machine.
+
 ##### Run this command
 
 ```
