@@ -3,3 +3,5 @@ data/json1.js
 data/out/*.*
 lib
 node_modules
+yarn.lock
+.yarnrc
