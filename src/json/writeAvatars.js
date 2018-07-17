@@ -1,3 +1,7 @@
+/*
+Writes out to Redis the avatar, location, and name
+*/
+
 import { smembers } from "./../redis/readUtils";
 import { writeAvatar } from "./../user/writeAvatar";
 import repositories from "./../../data/in/v100.json";

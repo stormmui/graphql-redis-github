@@ -1,3 +1,7 @@
+/*
+Writes out to Redis the avatar, location, and name
+*/
+
 import gql from "graphql-tag";
 import { hset } from "./../redis/writeUtils";
 import {
