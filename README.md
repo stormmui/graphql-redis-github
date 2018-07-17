@@ -29,7 +29,11 @@ npm install
 npm run s9
 ```
 
+s1 = **writeForks** writes the logins out to a redis set  
+s2 = **writeMentionableUsers** writes the logins out to a redis set  
 s3 = **writeStarGazers** writes the logins out to a redis set  
+s4 = **writeWatchers** writes the logins out to a redis set  
+
 s7 = **writeAvatars** reads the above redis set and writes out the login fields
 to a redis hashmap  
 s8 = **writeAvatarsJson** reads the above redis set and writes out the login fields
