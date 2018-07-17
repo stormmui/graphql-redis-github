@@ -29,10 +29,22 @@ npm install
 npm run s9
 ```
 
-s1 = **writeForks** writes the logins out to a redis set  
-s2 = **writeMentionableUsers** writes the logins out to a redis set  
-s3 = **writeStarGazers** writes the logins out to a redis set  
-s4 = **writeWatchers** writes the logins out to a redis set  
+The next four commands writes the user logins of a specific
+github repository out to a Redis set for the different
+categories of users depending on whether they have
+
+* forked the repo
+* starred the repo
+* committed to the repo
+* watcher of the repo
+
+s1 = **writeForks** writes the logins out to a Redis set  
+s2 = **writeMentionableUsers** writes the logins out to a Redis set  
+s3 = **writeStarGazers** writes the logins out to a Redis set  
+s4 = **writeWatchers** writes the logins out to a Redis set  
+
+The repository name written out to Redis is exactly the same
+string as the string in the file **data/in/v100.json**
 
 s7 = **writeAvatars** reads the above redis set and writes out the login fields
 to a redis hashmap  
