@@ -7,6 +7,7 @@ import {
 import { getClient } from "./../util/apollo-util";
 import { getGithubData } from "./../util/github-util";
 import { handlePromise } from "./../util/promise-util";
+import repositories from "./../../data/in/v100.json";
 
 const query = gql`
   query Watchers($owner: String!, $name: String!, $after: String) {
@@ -75,7 +76,7 @@ async function goGql(options) {
   await getCursorFromData(client, options, data);
 }
 
-const repositories = ["graphql/graphql-js"];
+// const repositories = ["graphql/graphql-js"];
 
 repositories.forEach(function(repository) {
   const result = repository.split("/");

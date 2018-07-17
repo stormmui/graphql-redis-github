@@ -7,7 +7,7 @@ import {
 import { getClient } from "./../util/apollo-util";
 import { getGithubData } from "./../util/github-util";
 import { handlePromise } from "./../util/promise-util";
-import repositories from "./../../data/in/v101.json";
+import repositories from "./../../data/in/v100.json";
 
 const query = gql`
   query MentionableUsers($owner: String!, $name: String!, $after: String) {
